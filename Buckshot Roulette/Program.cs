@@ -4,7 +4,7 @@ namespace Buckshot_Roulette
 {
     internal class Program
     {
-        //Erase lines and "Define easiest thing in the world" system
+        //Create empty lines system (easiest thing in the world)
         static void DontShow()
         {
             for (int i = 0; i < 30; i++)
