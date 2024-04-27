@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Buckshot_Roulette
 {
@@ -128,7 +129,7 @@ namespace Buckshot_Roulette
                         Console.WriteLine();
                     }
 
-                    //Updated variables
+                    //Update first shell
                     switch (arrangement[8 - total])
                     {
                         case "(?) ":
@@ -143,9 +144,46 @@ namespace Buckshot_Roulette
                             arrangement[8 - total] = "[X] ";
                             break;
                     }
+
+                    //Check if probability is flat, if so change all unknowns to blank or live
+                    double probability = liveP * 100 / totalP;
+                    int j = 0;
+                    switch (probability)
+                    {
+                        case 0:
+                            foreach (string i in arrangement)
+                            {
+                                if (i == "(?) ")
+                                {
+                                    arrangement[j] = "(X) ";
+                                }
+                                else if (i == "[?] ")
+                                {
+                                    arrangement[j] = "[X] ";
+                                }
+                                j++;
+                            }
+                            break;
+
+                        case 100:
+                            foreach (string i in arrangement)
+                            {
+                                if (i == "(?) ")
+                                {
+                                    arrangement[j] = "(0) ";
+                                }
+                                else if (i == "[?] ")
+                                {
+                                    arrangement[j] = "[0] ";
+                                }
+                                j++;
+                            }
+                            break;
+                    }
+
+                    //Update arrangement and round probability
                     string chamber = "-> " + arrangement[0] + arrangement[1] + arrangement[2] + arrangement[3] + arrangement[4] + arrangement[5] + arrangement[6] + arrangement[7];
                     string chamber2 = "   " + looksCool[0] + looksCool[1] + looksCool[2] + looksCool[3] + looksCool[4] + looksCool[5] + looksCool[6] + looksCool[7];
-                    double probability = liveP * 100 / totalP;
                     probability = Math.Round(probability);
 
                     //Updated text
@@ -218,7 +256,7 @@ namespace Buckshot_Roulette
                                     totalP -= 1;
                                 }
                                 arrangement[7 - total] = "";
-                                looksCool[7 - total] = "";
+                                looksCool[total] = "";
                                 error = false;
                                 break;
 
@@ -231,7 +269,7 @@ namespace Buckshot_Roulette
                                     totalP -= 1;
                                 }
                                 arrangement[7 - total] = "";
-                                looksCool[7 - total] = "";
+                                looksCool[total] = "";
                                 error = false;
                                 break;
                         }
